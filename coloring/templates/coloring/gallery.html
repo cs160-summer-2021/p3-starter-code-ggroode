@@ -1,0 +1,13 @@
+{% extends 'coloring/base.html' %}
+
+{% block title %}
+  This is the Gallery
+{% endblock %}
+
+{% block body %}
+  {% for pic in pictures %}
+    {% if pic.edited %}
+      {{pic.id}}
+    {% endif %}
+  {% endfor %}
+{% endblock %}

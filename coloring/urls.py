@@ -3,6 +3,7 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.static import serve
+
 urlpatterns = [
     path('demo', views.demo, name='demo'),
     path('', views.index, name='index'),
@@ -10,4 +11,5 @@ urlpatterns = [
     path('convert/<str:filename>',views.convert,name="convert"),
     path('canvas/<int:id>',views.canvas,name='canvas'),
     path('canvas2/<int:id>',views.canvas2,name='canvas2'),
+    path('gallery',views.gallery,name="gallery")
 ]

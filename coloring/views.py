@@ -10,6 +10,10 @@ def index(request):
 def demo(request):
     return render(request, 'coloring/demo.html')
 
+def gallery(request):
+    pic = Picture.objects.all()[0]
+    return render(request,'coloring/gallery.html',context={"pictures":Picture.objects.all()})
+
 def canvas(request,id,force=False):
     files = os.listdir(STATIC_IMAGE_PATH)
     exactMatch = [re.search(str(id)+"\.svg",x) for x in files]
