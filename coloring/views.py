@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
-from PIL import Image
-import numpy as np
-import potrace as pt
+#from PIL import Image
+#import numpy as np
+#import potrace as pt
 import os
 import re
 
