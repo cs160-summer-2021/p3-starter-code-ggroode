@@ -1,9 +1,13 @@
-from django.urls import path
+from django.urls import path,re_path
 from . import views
-
+from django.conf.urls.static import static
+from django.conf import settings
+from django.views.static import serve
 urlpatterns = [
-    path('demo', views.index, name='demo'),
+    path('demo', views.demo, name='demo'),
+    path('', views.index, name='index'),
     path('new_interaction', views.index, name='new_interaction'),
     path('convert/<str:filename>',views.convert,name="convert"),
-    path('canvas/<int:id>',views.canvas,name='canvas')
+    path('canvas/<int:id>',views.canvas,name='canvas'),
+    path('canvas2/<int:id>',views.canvas2,name='canvas2'),
 ]
