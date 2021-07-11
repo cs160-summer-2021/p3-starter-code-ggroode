@@ -1,11 +1,15 @@
 from django.shortcuts import render, HttpResponse
-#from PIL import Image
-#import numpy as np
-#import potrace as pt
+
+
+from django.core.files import File
 import os
 import re
+from .models import Picture
+from django.conf import settings
 
 def index(request):
+    return render(request, 'coloring/index.html', {'photos':Picture.objects.all()})
+def demo(request):
     return render(request, 'coloring/demo.html')
 
 def canvas(request,id,force=False):
@@ -19,6 +23,32 @@ def canvas(request,id,force=False):
         return render(request,'coloring/canvas.html',{"imagePath":STATIC_IMAGE_PATH_TEMPLATE+str(id)+".svg"})
     return HttpResponse("File does not exist")
 
+def canvas2(request,id,force=False):
+    print("Canvas 2- Request Recieved")
+    pic = Picture.objects.get(pk=id)
+    print(pic.id)
+    print(pic.pk)
+    path =settings.MEDIA_ROOT + "/"+pic.photo.name
+    print(path)
+    print(pic.photo.url)
+    print("Canvas 2- Object loaded")
+    if path.split(".")[-1] != "svg":
+        print("Canvas 2- Object Updating Begining")
+        intermediatePath = settings.MEDIA_ROOT+"/"+str(id) +".pgm"
+        outputPath = settings.MEDIA_ROOT+"/"+str(id)+"temp.svg"
+        print(intermediatePath)
+        print(outputPath)
+        os.system('convert ' + path+ " " + intermediatePath)
+        print("Canvas 2- First Conversion")
+        os.system('potrace ' + intermediatePath +" -s --opaque -o " + outputPath)
+        print("Canvas 2- Seconds Conversion")
+        pic.photo.save(str(id)+".svg",File(open(outputPath,'rb')))
+        os.system('rm ' + intermediatePath)
+        os.system('rm ' + path)
+        os.system('rm ' + outputPath)
+    #return render(request,'coloring/canvas.html',{"imagePath":"/../"+settings.MEDIA_ROOT + "/" + str(id)+".svg"})
+    return render(request,'coloring/canvas.html',{"imagePath":pic.photo.url})
+
 STATIC_IMAGE_PATH_TEMPLATE="/static/coloring/images/"
 STATIC_IMAGE_PATH="coloring/static/coloring/images/"
 def convert(request,filename):
@@ -26,7 +56,7 @@ def convert(request,filename):
     path = STATIC_IMAGE_PATH+filename
     intermediatePath = STATIC_IMAGE_PATH+name+ ".pgm"
     outputPath = STATIC_IMAGE_PATH+name+".svg"
-    os.system('convert ' + path + " --flatten " + intermediatePath)
+    os.system('convert ' + path + " " + intermediatePath)
     os.system('potrace ' + intermediatePath +" -s --opaque -o " + outputPath)
     return HttpResponse("File converted successfully")
     # image = Image.open(path)
