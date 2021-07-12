@@ -1,4 +1,6 @@
 from django.shortcuts import render, HttpResponse
+
+
 from django.core.files import File
 import os
 import re
@@ -9,6 +11,12 @@ def index(request):
     return render(request, 'coloring/index.html', {'photos':Picture.objects.all()})
 def demo(request):
     return render(request, 'coloring/demo.html')
+
+def homepage(request):
+    #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
+    return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()}) 
+ 
+
 
 def gallery(request):
     pic = Picture.objects.all()[0]

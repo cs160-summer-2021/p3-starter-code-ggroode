@@ -1,0 +1,205 @@
+
+{% load static %}
+{% load my_tags %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+		<link rel="stylesheet" type="text/css" href="{% static '/vendors/bootstrap/css/bootstrap.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}" />
+
+		<script src="{% static '/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static '/vendors/jquery-ui/jquery-ui.min.js' %}"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+
+
+.bg-img {
+  background-color: #ffe6cc;
+  height: 100vh;
+
+
+  
+
+}
+
+/* Position the navbar container inside the image */
+.container {
+  position: absolute;
+  margin: 30px;
+  width: auto;
+
+
+}
+.row{
+	  display: grid;
+  grid-auto-flow: column;
+}
+
+/* The navbar */
+.homepage {
+  overflow: scroll;
+  background-color: #a3a39d;
+text-align: center;
+  
+}
+
+/* Navbar links */
+.homepage a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 24px 26px;
+  text-decoration: none;
+  font-size: 23px;
+}
+
+.homepage :hover {
+  background-color: #A3D2DC;
+  color: black;
+}
+
+
+
+
+
+.wrapper {
+	padding-top: 20px;
+	font-size: 20;
+  position: relative;
+  height: 20px;
+  width: 10rem; /* real length of dropdown */
+
+}
+
+.wrapper:after {
+  content: "▼";
+  padding-top: 20px;
+  font-size: 0.3rem;
+  pointer-events: none; /* ▼ click triggers dropdown */
+  position: absolute;
+  right: 0.2rem;
+  top: 0.3rem;
+  z-index: 1;
+}
+
+select {
+  /* remove default caret */
+  -webkit-appearance: none; /* webkit browsers */
+  -moz-appearance: none; /* firefox */
+  appearance: none; /* modern browsers */
+  width: 100%;
+}
+
+
+
+
+.header {
+  text-align: center;
+  padding: 32px;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+
+
+
+</style>
+</head>
+<body class= "p-0 h-100">
+
+<div class="bg-img container-fluid">
+  <div class="container">
+    <div class="homepage">
+      <a href="#"> Current Project 1
+      </a>
+      <a href="#">Current Project 2</a>
+      <a href="#">Gallery</a>
+      <a href="#">Upload</a>
+
+    </div>
+
+    {% block body %}
+      {% for pic in photos %}
+			{% if forloop.counter|modulo:3 == 1 %}
+			<div class="row" style="height:75px">
+		 	{% endif %}
+			 	<div class = "col-sm-4" >
+					<a href = "{% url 'canvas' pic.id %}">
+						<img src = "{{pic.photo.url}}" style="height:75px;width:75px"/>
+					</a>
+				</div>
+			{% if forloop.last or forloop.counter|modulo:3 == 0  %}
+			 </div>
+		 	{% endif %}
+		{% endfor %}
+{% endblock %}
+
+    <section class="wrapper">
+  <select>
+    <option value="" selected>Mandalas</option>
+    <option>Patterns</option>
+  </select>
+	</section>
+
+
+
+
+
+<!-- Photo Grid -->
+<div class="row"> 
+  <div class="column">
+    <img src="" style="width:100%">
+
+  </div>
+  <div class="column">
+
+  </div>  
+  </div>
+</div>
+
+
+
+</body>
+</html>
