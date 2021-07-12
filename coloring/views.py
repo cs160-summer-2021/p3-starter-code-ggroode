@@ -13,8 +13,8 @@ def demo(request):
     return render(request, 'coloring/demo.html')
 
 def homepage(request):
-    context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
-    return render(request, 'coloring/homepage.html', context) 
+    #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
+    return render(request, 'coloring/homepage.html') 
         #{'photos':Picture.objects.all()})
  
 

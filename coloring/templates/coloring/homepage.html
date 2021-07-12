@@ -290,20 +290,7 @@ select {
 </div>
 
 
-{% for pic in pictures %}
-    {% if forloop.counter|modulo:3 == 1 %}
-      <div class="row" style="height:245.7px">
-    {% endif %}
-    <div class = "col-lg-4" >
-      <a href="{% url 'canvas2' pic.id %}" >
-        <img src = "{{pic.photo.url}}" style="height:100%;width:100%"/>
 
-      </a>
-    </div>
-    {% if forloop.last or forloop.counter|modulo:3 == 0  %}
-      </div>
-    {% endif %}
-  {% endfor %}
 
 
 
