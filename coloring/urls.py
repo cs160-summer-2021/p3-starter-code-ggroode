@@ -10,4 +10,7 @@ urlpatterns = [
     path('convert/<str:filename>',views.convert,name="convert"),
     path('canvas/<int:id>',views.canvas,name='canvas'),
     path('canvas2/<int:id>',views.canvas2,name='canvas2'),
+    path('homepage', views.homepage, name='homepage'),
+
+    
 ]

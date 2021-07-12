@@ -1,0 +1,326 @@
+{% load static %}
+
+<!-- <html>
+<head>	
+	<title></title>
+
+		<link rel="stylesheet" type="text/css" href="{% static '/vendors/bootstrap/css/bootstrap.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}" />
+
+		<script src="{% static '/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static '/vendors/jquery-ui/jquery-ui.min.js' %}"></script>
+
+	<style type="text/css">
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: 100px 100px ;
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 50px;
+  background-color: red;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  padding: 20px 0;
+}
+
+h1{
+	text-align: right;
+}
+</style>
+</head>
+<body>
+
+<h1> Hello, User! </h1>
+
+<p>Use the <em>grid-template-rows</em> property to define the size of the rows in a grid layout.</p>
+<p>The first row in this grid is 100px high, and the second row is 300px high:</p>
+
+<div class="grid-container">
+  <div class="item1">1
+  	background-image 
+
+  </div>
+  <div class="item2">2</div>
+  <div class="item3">3</div>  
+  <div class="item4">4</div>
+  <div class="item5">5</div>
+  <div class="item">6</div>
+</div>
+
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+		<link rel="stylesheet" type="text/css" href="{% static '/vendors/bootstrap/css/bootstrap.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}" />
+
+		<script src="{% static '/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static '/vendors/jquery-ui/jquery-ui.min.js' %}"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style type="text/css">
+
+
+.bg-img {
+  background-color: #ffe6cc;
+  height: 100vh;
+
+
+  
+
+}
+
+/* Position the navbar container inside the image */
+.container {
+  position: absolute;
+  margin: 30px;
+  width: auto;
+
+
+}
+.row{
+	  display: grid;
+  grid-auto-flow: column;
+}
+
+/* The navbar */
+.homepage {
+  overflow: scroll;
+  background-color: #a3a39d;
+text-align: center;
+  
+}
+
+/* Navbar links */
+.homepage a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 24px 26px;
+  text-decoration: none;
+  font-size: 23px;
+}
+
+.homepage :hover {
+  background-color: #A3D2DC;
+  color: black;
+}
+
+
+.dropbtn {
+
+  background-color: #A3D2DC;
+  color: black;
+  padding: 24px 26px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.dropbtn:after {
+  content: ' ▾';
+    font-size: 2.3rem;
+
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+/* The container <div> - needed to position the dropdown content */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+/* Dropdown Content (Hidden by Default) */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+/* Links inside the dropdown */
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+/* Change color of dropdown links on hover */
+
+.dropdown-content a:hover {
+  background-color: #A3D2DC;
+}
+/* Show the dropdown menu on hover */
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* Change the background color of the dropdown button when the dropdown content is shown */
+
+.dropdown:hover .dropbtn {
+  background-color: #00C1EC;
+}
+
+
+.wrapper {
+	padding-top: 20px;
+	font-size: 20;
+  position: relative;
+  height: 20px;
+  width: 10rem; /* real length of dropdown */
+
+}
+
+.wrapper:after {
+  content: "▼";
+  padding-top: 20px;
+  font-size: 0.3rem;
+  pointer-events: none; /* ▼ click triggers dropdown */
+  position: absolute;
+  right: 0.2rem;
+  top: 0.3rem;
+  z-index: 1;
+}
+
+select {
+  /* remove default caret */
+  -webkit-appearance: none; /* webkit browsers */
+  -moz-appearance: none; /* firefox */
+  appearance: none; /* modern browsers */
+  width: 100%;
+}
+
+
+
+
+.header {
+  text-align: center;
+  padding: 32px;
+}
+
+.row {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE10 */
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+
+
+
+</style>
+</head>
+<body class= "p-0 h-100">
+
+<div class="bg-img container-fluid">
+  <div class="container">
+    <div class="homepage">
+      <a href="#"> Current Project 1
+      </a>
+      <a href="#">Current Project 2</a>
+      <a href="#">Gallery</a>
+      <a href="#">Upload</a>
+    </div>
+
+    <section class="wrapper">
+  <select>
+    <option value="" selected>Mandalas</option>
+    <option>Patterns</option>
+    <option>Option 2</option>
+    <option>Option 3</option>
+  </select>
+</section>
+
+
+    <div class="dropdown">
+  <button class="dropbtn">Mandalas</button>
+  <div class="dropdown-content">
+    <a href="#">Patterns</a>
+
+  </div>
+</div>
+
+
+{% for pic in pictures %}
+    {% if forloop.counter|modulo:3 == 1 %}
+      <div class="row" style="height:245.7px">
+    {% endif %}
+    <div class = "col-lg-4" >
+      <a href="{% url 'canvas2' pic.id %}" >
+        <img src = "{{pic.photo.url}}" style="height:100%;width:100%"/>
+
+      </a>
+    </div>
+    {% if forloop.last or forloop.counter|modulo:3 == 0  %}
+      </div>
+    {% endif %}
+  {% endfor %}
+
+
+
+
+<!-- Photo Grid -->
+<div class="row"> 
+  <div class="column">
+    <img src="" style="width:100%">
+
+  </div>
+  <div class="column">
+
+  </div>  
+  </div>
+</div>
+
+
+
+</body>
+</html>
