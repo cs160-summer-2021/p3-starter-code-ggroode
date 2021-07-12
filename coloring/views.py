@@ -14,8 +14,7 @@ def demo(request):
 
 def homepage(request):
     #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
-    return render(request, 'coloring/homepage.html') 
-        #{'photos':Picture.objects.all()})
+    return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()}) 
  
 
 
