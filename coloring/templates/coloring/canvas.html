@@ -1,43 +1,34 @@
+{% extends 'coloring/base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  	<title>P3 Coloring</title>
-
+{% block title %}Canvas{% endblock %}
+{% block scripts %}
 	<script type="text/javascript" src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'coloring/vendors/paper/paper-full.min.js' %}"></script>
+  <script type="text/javascript" canvas="myCanvas">
+    const rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}` //Credit:https://stackoverflow.com/questions/1740700/how-to-get-hex-color-value-rather-than-rgb-value
+    function savePalette(){
+      let name = document.getElementById('paletteNameInput').value;
+      if(name=="" || name=="Blank"){
+        alert("Palette name cannot be Blank");
+      } else{
+        let colorItems = document.getElementsByClassName('palette-color');
+        let colors="";
+        for(var i = 0; i < colorItems.length; i++){
+          color = colorItems[i].style.backgroundColor;
+          if (color.match(/^rgb/)){
+            color = rgb2hex(color);
+          }
+          colors+=color+",";
+        }
+        $.post("{% url 'savePalette' %}",   // url
+       { paletteName: name,colors:colors},// data to be submit
+       function(data, status, jqXHR) {// success callback
+              window.location.href = "{% url 'canvas' id%}" +"/"+name
+        }
+     )}
 
-	<style type="text/css">
-		#color-palette {
-			width: 300px;
-			background-color: #f1f1f1;
-			display: flex;
-			flex-wrap: wrap;
-			position: absolute;
-			top: 0;
-		}
-
-		.swatch {
-			width: 24px;
-			height: 24px;
-			-moz-border-radius: 12px;
-			-webkit-border-radius: 12px;
-			border-radius: 12px;
-			margin: 3px;
-		}
-
-		#myCanvas {
-			padding-left: 0;
-		    padding-right: 0;
-		    margin-left: auto;
-		    margin-right: auto;
-		    display: block;
-		}
-	</style>
-
-	<script type="text/javascript" canvas="canvas">
+    }
 		window.onload = function() {
 			var canvas = document.getElementById('myCanvas');
 
@@ -64,51 +55,85 @@
 				    if (hit) {
 				    		// Color pallette keeps track of the full history of colors, though we
 				    		// only color in with the most-recent color.
-				        hit.item.fillColor = cp.history[cp.history.length - 1];
+				        hit.item.fillColor = colorpicker.value;
 				    }
 				}
 			}
 
+
 			// create a color palette with the given colors
-			function createColorPalette(colors){
+			// function createColorPalette(colors){
+      //
+			// 	// create a swatch for each color
+			// 	for (var i = colors.length - 1; i >= 0; i--) {
+			// 		var $swatch = $("<div>").css("background-color", colors[i])
+			// 						   .addClass("swatch");
+			// 		$swatch.click(function(){
+			// 			// add color to the color palette history
+			// 		  	cp.history.push($(this).css("background-color"));
+			// 		});
+			// 		cp.$container.append($swatch);
+			// 	}
+			// }
+      //
+			// // loads a set of colors from a json to create a color palette
+			// function getColorsCreatePalette(){
+			// 	cp.$container.html(" ");
+			// 	$.getJSON('/static/coloring/vendors/material/material-colors.json', function(colors){
+			// 		var keys = Object.keys(colors);
+			// 		for (var i = keys.length - 1; i >= 0; i--) {
+			// 			cp.options.push(colors[keys[i]][500]);
+			// 		}
+			// 		createColorPalette(cp.options);
+			// 	});
+			// }
 
-				// create a swatch for each color
-				for (var i = colors.length - 1; i >= 0; i--) {
-					var $swatch = $("<div>").css("background-color", colors[i])
-									   .addClass("swatch");
-					$swatch.click(function(){
-						// add color to the color palette history
-					  	cp.history.push($(this).css("background-color"));
-					});
-					cp.$container.append($swatch);
-				}
-			}
+      $(function () {
+            $(".palette-color").on("click", function (e) {
+              // cp.history.push($(this).css("background-color"));
+              colorPicker.value=rgb2hex($(this).css('background-color'));
+              $('.active').toggleClass('active');
+              $(this).toggleClass('active');
+            });
+          });
 
-			// loads a set of colors from a json to create a color palette
-			function getColorsCreatePalette(){
-				cp.$container.html(" ");
-				$.getJSON('/static/coloring/vendors/material/material-colors.json', function(colors){
-					var keys = Object.keys(colors);
-					for (var i = keys.length - 1; i >= 0; i--) {
-						cp.options.push(colors[keys[i]][500]);
-					}
-					createColorPalette(cp.options);
-				});
-			}
+    // $(function () {
+    //     $("#color-picker").on("change", function(event) {
+    //     $(".active").css('background-color',event.target.value)
+    //   });
+    // });
+    var colorPicker = document.getElementById("colorpicker")
+    colorPicker.addEventListener("input", watchColorPicker, true);
+
+    function watchColorPicker(event) {
+      $(".active").css('background-color',event.target.value)
+    }
 
 			function init(custom){
 				paper.setup(canvas);
-				getColorsCreatePalette();
+				// getColorsCreatePalette();
 
 				paper.project.importSVG(mandala.filePath, function(item) {
+          // var path = new Path.Rectangle({
+          //   point: [0, 0],
+          //   size: [1536, 1638],
+          //   fillColor: 'black'
+          // });
 					mandala.item = item.lastChild;
-				    paper.project.insertLayer(0,mandala.item);
+          // mandala.item.matrix.scale(10);
+          // if (mandala.item.bounds.width > paper.view.bounds.width || mandala.item.bounds.height > paper.view.bounds.height){
+          //   mandala.item.fitBounds(paper.view.bounds);
+          // } else{
+          //   mandala.item.position = paper.view.center
+          // }
+				  paper.project.insertLayer(0,mandala.item);
+          paper.project.layers[0].fitBounds(paper.view.bounds)
 
-				    if (custom) {
-				    	myCustomInteraction();
-				    } else {
-				    	myGradientInteraction();
-				    }
+			    if (custom) {
+			    	myCustomInteraction();
+			    } else {
+			    	myGradientInteraction();
+			    }
 
 				});
 			}
@@ -117,10 +142,160 @@
 			init(true);
 		}
 	</script>
-</head>
-<body>
+{% endblock %}
+{% block style %}
+<style type="text/css">
+  html,body{
+    height:100%;
+    width:100%;
+  }
+		#color-palette {
+			width: 100%;
+			background-color: #f1f1f1;
+			display: flex;
+			flex-wrap: wrap;
+			top: 0;
+		}
 
-	<canvas id="myCanvas" width="750px" height="750px"></canvas>
-	<div id="color-palette"></div>
-</body>
-</html>
+		.swatch {
+			width: 24px;
+			height: 24px;
+			-moz-border-radius: 12px;
+			-webkit-border-radius: 12px;
+			border-radius: 12px;
+			margin: 3px;
+		}
+    .bottom-box{
+      height:100%;
+      width:11.11%;
+      border-width:1px;
+      border-style:solid;
+      color:"black";
+    }
+
+    div.active{
+      border-width:5px;
+      border-style:double;
+      color:"black";
+    }
+
+		#myCanvas {
+			padding-left: 0;
+	    padding-right: 0;
+	    margin-left: auto;
+	    margin-right: auto;
+	    display: block;
+      width:100%;
+      height:100%;
+		}
+    /* .row{
+      background-color:red;
+    } */
+    #CanvasRow{
+      height:80%;
+      width: 100%;
+    }
+    #OptionsRow{
+      height:7%;
+      width: 100%;
+    }
+    #PaletteRow{
+      height:7%;
+      width: 100%;
+    }
+    #SaveRow{
+      height:6%;
+      width: 100%;
+    }
+    .no-margin{
+      height:100%;
+      width:100%;
+      padding-left:0px;
+      padding-right:0px;
+      padding:0;
+      margin-left:0px;
+      margin-right:0px;
+    }
+    .vertical-scrollable{
+        /* position:absolute; */
+        height:150px;
+        overflow-y: scroll;
+      }
+    /* #PaletteDropdownCol{
+      height:100%;
+      width10
+    } */
+	</style>
+{% endblock %}
+
+
+{% block body %}
+  <div class="no-margin container-fluid">
+    <div id="OptionsRow" class="no-margin row border-bottom border-dark">
+    </div>
+    <div id = "CanvasRow" class="no-margin row">
+        <canvas id="myCanvas"></canvas>
+    </div>
+    <div id = "SaveRow" class="no-margin row">
+      <div class = "column" style="height:100%;width:10%">
+        <div class="dropdown show">
+          <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{paletteName}}
+          </a>
+          <div class="dropdown-menu .verticle-scrollable" aria-labelledby="dropdownMenuLink">
+            {% for pName in paletteNames %}
+              <a class="dropdown-item" href="{% url 'canvas' id pName %}">{{pName}}</a>
+            {% endfor %}
+            <a class="dropdown-item" href="{% url 'canvas' id 'Blank' %}">+ New Palette</a>
+          </div>
+        </div>
+              </div>
+      <div class = "column" style="height:100%;width:72%"></div>
+      <div class = "column" style="height:100%;width:18%">
+        <button id="SavePalette" class="btn btn-success" type="button" data-toggle="modal" data-target="#savePaletteModal">Save Palette</button>
+      </div>
+    </div>
+    <div id="PaletteRow"class="no-margin row border-top border-dark">
+      <div id="EditColor" class="bottom-box">
+           <center>
+             <h6>Edit Color</h6>
+             <input type="color" id="colorpicker" value="{{colors.0}}">
+           </center>
+      </div>
+      {% for color in colors %}
+        {% if forloop.counter == 1%}
+            <div class="bottom-box palette-color active" style="background-color:{{color}}"> </div>
+        {% else %}
+          <div class="bottom-box palette-color" style="background-color:{{color}}"> </div>
+        {% endif %}
+      {% endfor %}
+      <!-- <div id="color-palette">
+        <div class=
+      </div> -->
+    </div>
+
+
+  <!-- A section for popups -->
+
+  <div class="modal" id="savePaletteModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- <form action="{% url 'savePalette' %}" class="form-container" method="Post"> -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Save Palette</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <label for="paletteName"><b>Palette Name</b></label>
+          <input id = "paletteNameInput" type="text" placeholder="{{paletteName}}" name='paletteName' required>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" onclick="savePalette()" data-toggle="modal" data-target="#savePaletteModal">Save changes</button>
+        </div>
+      <!-- </form> -->
+    </div>
+  </div>
+</div>
+{% endblock %}
