@@ -1,0 +1,24 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  	<title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'coloring/vendors/bootstrap/css/bootstrap.css' %}" />
+  	<!-- <link rel="stylesheet" type="text/css" href="{% static 'weather/css/style.css' %}" /> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    {% block scripts %}{% endblock scripts %}
+    {% block style %}{% endblock style %}
+
+</head>
+<body>
+
+  {% block body %}
+  {% endblock body %}
+</body>
+
+</html>
