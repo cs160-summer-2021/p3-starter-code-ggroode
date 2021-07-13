@@ -13,11 +13,22 @@ def index(request):
 def demo(request):
     return render(request, 'coloring/demo.html')
 
-def homepage(request,category):
+#<<<<<<< HEAD
+def homepage(request, category):
     #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
     categories = list(set([pic.category for pic in Picture.objects.all()]))
     return render(request, 'coloring/homepage.html', {'photos':Picture.objects.filter(category=category),'categories':categories})
 
+
+    #return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()})
+
+#=======
+#def homepage(request,category):
+    #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
+ #   category = list(set([pic.category for pic in Picture.objects.all()]))
+ #   return render(request, 'coloring/homepage.html', {'photos':Picture.objects.filter(category=category),'categories':category})
+
+#>>>>>>> e754e7605856b652df5bcab09a54d2926f20b96d
 
 
 def gallery(request):
