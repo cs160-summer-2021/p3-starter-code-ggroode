@@ -5,6 +5,7 @@ class Picture(models.Model):
     category = models.CharField(max_length=25)
     photo = models.ImageField()
     edited = models.BooleanField(default=False)
+    date_modified = models.DateTimeField(auto_now=True)
 
 class Palette(models.Model):
     name = models.CharField(primary_key=True,max_length=25)

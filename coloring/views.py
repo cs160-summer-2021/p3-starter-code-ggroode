@@ -6,12 +6,14 @@ import os
 import re
 from .models import Picture, Palette
 from django.conf import settings
+from datetime import datetime
 
 def index(request):
-    return render(request, 'coloring/index.html', {'photos':Picture.objects.all()})
+    return render(request, 'coloring/index.html', {'photos':Picture.objects.all().order_by('-date_modified')})
 def demo(request):
     return render(request, 'coloring/demo.html')
 
+#<<<<<<< HEAD
 def homepage(request, category):
     #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
     categories = list(set([pic.category for pic in Picture.objects.all()]))
@@ -20,6 +22,13 @@ def homepage(request, category):
 
     #return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()}) 
  
+#=======
+#def homepage(request,category):
+    #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
+ #   category = list(set([pic.category for pic in Picture.objects.all()]))
+ #   return render(request, 'coloring/homepage.html', {'photos':Picture.objects.filter(category=category),'categories':category})
+
+#>>>>>>> e754e7605856b652df5bcab09a54d2926f20b96d
 
 
 def gallery(request):
@@ -87,3 +96,23 @@ def savePalette(request):
         pal = Palette(name=paletteName,colors=colors)
         pal.save()
     return HttpResponse("Success")
+
+def saveImage(request):
+    print("save Image request received")
+    id = request.POST.get('id')
+    content=request.POST.get('content')
+    # print(content)
+    path = settings.MEDIA_ROOT +"/"+str(id)+".svg"
+    try:
+        pal=Picture.objects.get(pk=id)
+        print(pal.date_modified)
+        my_file = open(path, "w")
+        my_file.write(content)
+        my_file.close()
+        pal.edited=True
+        pal.save()
+        return HttpResponse('Success')
+
+    except Exception as e:
+        print(e)
+        return HttpResponse('Error')
