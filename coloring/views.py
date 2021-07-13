@@ -37,7 +37,7 @@ def homepage(request, category):
 
 def gallery(request):
     pic = Picture.objects.all()[0]
-    return render(request,'coloring/gallery.html',context={"pictures":Picture.objects.filter(edited=True).order_by('-date_modifed')})
+    return render(request,'coloring/gallery.html',context={"pictures":Picture.objects.filter(edited=True).order_by('-date_modified')})
 
 # def canvas(request,id,force=False):
 #     files = os.listdir(STATIC_IMAGE_PATH)

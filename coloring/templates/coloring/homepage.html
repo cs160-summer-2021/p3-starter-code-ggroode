@@ -265,16 +265,15 @@ function func() {
 
     {% block body %}
       {% for pic in photos %}
-			{% if forloop.counter|modulo:3 == 1 %}
-			<div class="row" style="height:220px; margin:auto;">
-		 	{% endif %}
-			 	<div class = "col-sm-4" >
-					<a href = "{% url 'canvas' pic.id %}">
-						<img src = "{{pic.photo.url}}" id = "image"/>
-
-					</a>
+			   {% if forloop.counter|modulo:3 == 1 %}
+			     <div class="row" style="height:220px; margin:auto;">
+		 	    {% endif %}
+			 	 <div class = "col-sm-4" >
+					   <a href = "{% url 'canvas' pic.id %}">
+						  <img src = "{{pic.photo.url}}" id = "image"/>
+					   </a>
 				</div>
-			{% if forloop.last or forloop.counter|modulo:3 == 0  %}
+			   {% if forloop.last or forloop.counter|modulo:3 == 0  %}
 			 </div>
 		 	{% endif %}
 		{% endfor %}

@@ -1,14 +1,35 @@
-{% extends 'coloring/base.html' %}
+{% load static %}
 
+{% load my_tags %}
 
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="{% static 'coloring/vendors/bootstrap/css/bootstrap.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'coloring/css/main.css' %}" />
+
+		<script src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static 'coloring/vendors/jquery-ui/jquery-ui.min.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
 
 
  <style>
-
+.image{
+	margin: auto;
+	border: 2px solid #555;
+	background-color: #ffffff;
+	height: 50px;
+	margin-right: 20px;
+	margin-left: 20px;
+	margin-bottom: 50px;
+}
+.back{
+	background-color: #ffe6cc;
+  height: 100vh;
+}
 
 
 
@@ -18,17 +39,30 @@
 
 <body class= "p-0 h-100">
 
+	<div class="container">
 
-{% block title %}
-  This is the Gallery
-{% endblock %}
+		<div class="back p-0 h-100">
 
-{% block body %}
-  {% for pic in pictures %}
-    {% if pic.edited %}
-      {{pic.id}}
-    {% endif %}
-  {% endfor %}
-{% endblock %}
+
+
+  		{% for pic in pictures %}
+    		{% if pic.edited %}
+				{% if forloop.counter|modulo:3 == 1 %}
+					<div class="row" style="height:80px">
+		 		{% endif %}
+			 	<div class = "col-sm-4 image" >
+					<a href = "{% url 'canvas' pic.id %}">
+						<img src = "{{pic.photo.url}}" />
+					</a>
+				</div>
+				{% if forloop.last or forloop.counter|modulo:3 == 0  %}
+			 	</div>
+		 		{% endif %}
+    		{% endif %}
+  		{% endfor %}
+
+		</div>
+	</div>
 
 </body>
+</html>
