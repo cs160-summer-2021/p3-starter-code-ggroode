@@ -6,11 +6,11 @@
 <html>
 <head>
 
-		<link rel="stylesheet" type="text/css" href="{% static '/vendors/bootstrap/css/bootstrap.css' %}" />
-		<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'coloring/vendors/bootstrap/css/bootstrap.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'coloring/css/main.css' %}" />
 
-		<script src="{% static '/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
-		<script src="{% static '/vendors/jquery-ui/jquery-ui.min.js' %}"></script>
+		<script src="{% static 'coloring/vendors/jquery/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static 'coloring/vendors/jquery-ui/jquery-ui.min.js' %}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
@@ -24,7 +24,7 @@
   height: 100vh;
 
 
-  
+
 
 }
 
@@ -48,7 +48,7 @@
   overflow: scroll;
   background-color: #a3a39d;
 text-align: center;
-  
+
 }
 
 /* Navbar links */
@@ -107,8 +107,8 @@ select {
 	border: 2px solid #555;
 	background-color: #ffffff;
 	height:200px;
-	width:200px; 
-	margin-right: 20px; 
+	width:200px;
+	margin-right: 20px;
 	margin-left: 20px;
 	margin-bottom: 50px;
 }
@@ -196,7 +196,7 @@ select {
       <a href="#">Current Project 2</a>
       <a href="#">Gallery</a>
       <a href="#">Upload</a>
-      <a href="#">Help</a> 
+      <a href="#">Help</a>
 
     </div>
 <div class="dropdown show">
@@ -224,8 +224,8 @@ select {
 
 
   <select name= "category" id= "selection" onchange="func()" >
-    <option value= "Mandala" selected>Mandala</option> 
-    <option value= "Animals">Animals</option> 
+    <option value= "Mandala" selected>Mandala</option>
+    <option value= "Animals">Animals</option>
 
 
   </select>
@@ -247,7 +247,7 @@ function func() {
 	  function funct(){
   var open = $(this).data("isopen");
   if(open) {
-    window.location.href = $(this).val() 
+    window.location.href = $(this).val()
   }
   $(this).data("isopen", !open);
 };
@@ -261,7 +261,7 @@ function func() {
 		 	{% endif %}
 			 	<div class = "col-sm-4" >
 					<a href = "{% url 'canvas' pic.id %}">
-						<img src = "{{pic.photo.url}}" id = "image"/> 
+						<img src = "{{pic.photo.url}}" id = "image"/>
 
 					</a>
 				</div>
