@@ -11,11 +11,11 @@ urlpatterns = [
     path('convert/<str:filename>',views.convert,name="convert"),
     path('canvas/<int:id>',views.canvas,name='canvas'),
     path('homepage/<str:category>', views.homepage, name='homepage'),
-
-
     path('canvas/<int:id>/<str:paletteName>',views.canvas,name='canvas'),
     # path('canvas2/<int:id>',views.canvas2,name='canvas2'),
     path('gallery',views.gallery,name="gallery"),
     path('savePalette',views.savePalette,name='savePalette'),
     path('saveImage',views.saveImage,name='saveImage'),
+    path('upload',views.upload,name='upload'),
+    path('uploadImage',views.uploadImage,name='uploadImage'),
 ]

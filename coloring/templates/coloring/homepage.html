@@ -24,7 +24,7 @@
   height: 100vh;
 
 
-  
+
 
 }
 
@@ -48,7 +48,7 @@
   overflow: scroll;
   background-color: #a3a39d;
 text-align: center;
-  
+
 }
 
 /* Navbar links */
@@ -107,8 +107,8 @@ select {
 	border: 2px solid #555;
 	background-color: #ffffff;
 	height:200px;
-	width:200px; 
-	margin-right: 20px; 
+	width:200px;
+	margin-right: 20px;
 	margin-left: 20px;
 	margin-bottom: 50px;
 }
@@ -205,6 +205,7 @@ select {
       <a href="#">Gallery</a>
       <a href="#">Upload</a>
 
+
     </div>
 
 <div class="dropdown show">
@@ -232,8 +233,8 @@ select {
 
 
   <select name= "category" id= "selection" onchange="func()" >
-    <option value= "Mandala" selected>Mandala</option> 
-    <option value= "Animals">Animals</option> 
+    <option value= "Mandala" selected>Mandala</option>
+    <option value= "Animals">Animals</option>
 
 
   </select>
@@ -255,7 +256,7 @@ function func() {
 	  function funct(){
   var open = $(this).data("isopen");
   if(open) {
-    window.location.href = $(this).val() 
+    window.location.href = $(this).val()
   }
   $(this).data("isopen", !open);
 };
@@ -269,7 +270,7 @@ function func() {
 		 	{% endif %}
 			 	<div class = "col-sm-4" >
 					<a href = "{% url 'canvas' pic.id %}">
-						<img src = "{{pic.photo.url}}" id = "image"/> 
+						<img src = "{{pic.photo.url}}" id = "image"/>
 
 					</a>
 				</div>

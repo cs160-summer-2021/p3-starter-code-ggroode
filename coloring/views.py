@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 
 
 from django.core.files import File
@@ -17,11 +17,11 @@ def demo(request):
 def homepage(request, category):
     #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
     categories = list(set([pic.category for pic in Picture.objects.all()]))
-    return render(request, 'coloring/homepage.html', {'photos':Picture.objects.filter(category=category),'categories':category})
+    return render(request, 'coloring/homepage.html', {'photos':Picture.objects.filter(category=category),'categories':categories})
 
 
-    #return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()}) 
- 
+    #return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()})
+
 #=======
 #def homepage(request,category):
     #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
@@ -53,7 +53,8 @@ def gallery(request):
 def canvas(request,id,paletteName='Basic Colors'):
     pic = Picture.objects.get(pk=id)
     path =settings.MEDIA_ROOT + "/"+pic.photo.name
-    if path.split(".")[-1] != "svg":
+    if path.split("/")[-1] != str(id)+".svg" :
+        # if path.split(".")[-1] != "svg":
         intermediatePath = settings.MEDIA_ROOT+"/"+str(id) +".pgm"
         outputPath = settings.MEDIA_ROOT+"/"+str(id)+"temp.svg"
         os.system('convert ' + path+ " " + intermediatePath)
@@ -63,6 +64,8 @@ def canvas(request,id,paletteName='Basic Colors'):
         os.system('rm ' + intermediatePath)
         os.system('rm ' + path)
         os.system('rm ' + outputPath)
+        # else:
+        #     os.rename(path,settings.MEDIA_ROOT+"/"+)
     colors = []
     if paletteName == 'Blank':
         colors =['#FFFFFF']*8
@@ -73,6 +76,10 @@ def canvas(request,id,paletteName='Basic Colors'):
             colors=['#FFFFFF']*8
             paletteName='Blank'
     return render(request,'coloring/canvas.html',{"id":id,"imagePath":pic.photo.url,'colors':colors,'paletteName':paletteName,'paletteNames':[p.name for p in Palette.objects.all()]})
+
+
+def upload(request):
+    return render(request,'coloring/upload.html')
 
 STATIC_IMAGE_PATH_TEMPLATE="/static/coloring/images/"
 STATIC_IMAGE_PATH="coloring/static/coloring/images/"
@@ -120,3 +127,9 @@ def saveImage(request):
     except Exception as e:
         print(e)
         return HttpResponse('Error')
+def uploadImage(request):
+    file = request.FILES['file']
+    category= request.POST.get("category")
+    pic = Picture(category=category,photo=file)
+    pic.save()
+    return redirect('index')
