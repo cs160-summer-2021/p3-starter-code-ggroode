@@ -11,10 +11,7 @@ urlpatterns = [
     path('convert/<str:filename>',views.convert,name="convert"),
     path('canvas/<int:id>',views.canvas,name='canvas'),
     path('homepage/<str:category>', views.homepage, name='homepage'),
-#<<<<<<< HEAD
-#=======
 
-#>>>>>>> e754e7605856b652df5bcab09a54d2926f20b96d
 
     path('canvas/<int:id>/<str:paletteName>',views.canvas,name='canvas'),
     # path('canvas2/<int:id>',views.canvas2,name='canvas2'),
