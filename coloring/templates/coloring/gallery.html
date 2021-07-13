@@ -19,16 +19,19 @@
  <style>
 .image{
 	margin: auto;
-	border: 2px solid #555;
-	background-color: #ffffff;
-	height: 50px;
-	margin-right: 20px;
-	margin-left: 20px;
+	/* border: 2px solid #555;
+	background-color: #ffffff; */
+	height: 100%;
+	/* margin-right: 20px;
+	margin-left: 20px; */
 	margin-bottom: 50px;
 }
 .back{
 	background-color: #ffe6cc;
   height: 100vh;
+}
+body{
+	background-color: #ffe6cc;
 }
 
 
@@ -46,18 +49,17 @@
 
 
   		{% for pic in pictures %}
-    		{% if pic.edited %}
+
 				{% if forloop.counter|modulo:3 == 1 %}
-					<div class="row" style="height:80px">
+					<div class="row" style="height:220px">
 		 		{% endif %}
 			 	<div class = "col-sm-4 image" >
-					<a href = "{% url 'canvas' pic.id %}">
-						<img src = "{{pic.photo.url}}" />
+					<a href = "{% url 'canvas' pic.id %}" style="height:100%">
+						<img src = "{{pic.photo.url}}" style="height:100%"/>
 					</a>
 				</div>
 				{% if forloop.last or forloop.counter|modulo:3 == 0  %}
-			 	</div>
-		 		{% endif %}
+			 		</div>
     		{% endif %}
   		{% endfor %}
 
