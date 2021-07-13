@@ -12,9 +12,13 @@ def index(request):
 def demo(request):
     return render(request, 'coloring/demo.html')
 
-def homepage(request):
+def homepage(request, category):
     #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
-    return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()}) 
+    categories = list(set([pic.category for pic in Picture.objects.all()]))
+    return render(request, 'coloring/homepage.html', {'photos':Picture.objects.filter(category=category),'categories':category})
+
+
+    #return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()}) 
  
 
 
