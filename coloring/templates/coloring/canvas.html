@@ -26,7 +26,7 @@
         $.post("{% url 'savePalette' %}",   // url
        { paletteName: name,colors:colors},// data to be submit
        function(data, status, jqXHR) {// success callback
-              window.location.href = "{% url 'canvas' id%}" +"/"+name
+              window.location.href = "{% url 'canvas' pic.id%}" +"/"+name
         }
      )}
 
@@ -35,9 +35,31 @@
     var mandala = {
       item: null,
       lastClicked: null,
-      filePath: "{{imagePath}}"
+      filePath: "{{pic.photo.url}}"
       // filePath: '/static/coloring/images/4.svg'
     };
+		var historyArr=[];
+		var redoHist = [];
+		function undo(){
+			let lst = historyArr.pop();
+			let item = lst[0];
+			let color = lst[1];
+			redoHist.push([item,item.fillColor]);
+			item.fillColor=color;
+			saveImage();
+		}
+		function redo(){
+			let lst = redoHist.pop();
+			let item = lst[0];
+			let color = lst[1];
+			historyArr.push([item,item.fillColor]);
+			item.fillColor=color;
+			saveImage();
+		}
+		async function saveImage(){
+			$.post("{% url 'saveImage' %}",   // url
+			 { id: {{pic.id}},content:paper.project.exportSVG({'asString':true})})
+		}
 		window.onload = function() {
 			var canvas = document.getElementById('myCanvas');
 
@@ -51,6 +73,7 @@
 				$container: $('#color-palette')
 			}
 
+
 			function myCustomInteraction() {
 				var tool = new paper.Tool();
 
@@ -59,12 +82,15 @@
 				    if (hit) {
 				    		// Color pallette keeps track of the full history of colors, though we
 				    		// only color in with the most-recent color.
+								historyArr.push([hit.item,hit.item.fillColor]);
+								redoHist=[];
 				        hit.item.fillColor = colorpicker.value;
-                $.post("{% url 'saveImage' %}",   // url
-                 { id: {{id}},content:paper.project.exportSVG({'asString':true})})
+								saveImage();
+
 				    }
 				}
 			}
+
 
 
 			// create a color palette with the given colors
@@ -198,11 +224,11 @@
       background-color:red;
     } */
     #CanvasRow{
-      height:80%;
-      width: 100%;
+     height:81%;
+     width: 100%;
     }
     #OptionsRow{
-      height:7%;
+      height:6%;
       width: 100%;
     }
     #PaletteRow{
@@ -210,17 +236,21 @@
       width: 100%;
     }
     #SaveRow{
-      height:6%;
-      width: 100%;
+	    height:6%;
+	    width: 100%;
     }
+		img{
+			height:100%;
+			width:100%;
+		}
     .no-margin{
-      height:100%;
-      width:100%;
-      padding-left:0px;
-      padding-right:0px;
-      padding:0;
-      margin-left:0px;
-      margin-right:0px;
+	    height:100%;
+	    width:100%;
+	    padding-left:0px;
+	    padding-right:0px;
+	    padding:0;
+	    margin-left:0px;
+	    margin-right:0px;
     }
     .vertical-scrollable{
         /* position:absolute; */
@@ -238,6 +268,16 @@
 {% block body %}
   <div class="no-margin container-fluid">
     <div id="OptionsRow" class="no-margin row border-bottom border-dark">
+			<a href = "{% url 'homepage' pic.category %}" style="height:100%;width:10%">
+				<img src="{% static 'coloring/images/back.png' %}">
+			</a>
+			<div style="height:100%;width:74%"></div>
+			<a onclick="undo()" style="height:100%;width:8%">
+				<img src="{% static 'coloring/images/undo.jpg' %}">
+			</a>
+			<a onclick="redo()" style="height:100%;width:8%">
+				<img src="{% static 'coloring/images/redo.jpg' %}">
+			</a>
     </div>
     <div id = "CanvasRow" class="no-margin row">
         <canvas id="myCanvas"></canvas>
@@ -250,9 +290,9 @@
           </a>
           <div class="dropdown-menu .verticle-scrollable" aria-labelledby="dropdownMenuLink">
             {% for pName in paletteNames %}
-              <a class="dropdown-item" href="{% url 'canvas' id pName %}">{{pName}}</a>
+              <a class="dropdown-item" href="{% url 'canvas' pic.id pName %}">{{pName}}</a>
             {% endfor %}
-            <a class="dropdown-item" href="{% url 'canvas' id 'Blank' %}">+ New Palette</a>
+            <a class="dropdown-item" href="{% url 'canvas' pic.id 'Blank' %}">+ New Palette</a>
           </div>
         </div>
               </div>

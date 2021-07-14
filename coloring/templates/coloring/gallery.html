@@ -21,10 +21,10 @@
 	margin: auto;
 	 border: 6px  double grey;
 	 border-style: double groove;
-	background-color: #ffffff; 
+	background-color: #ffffff;
 	height: 100%;
 	 margin-right: 0px;
-	margin-left: 0px; 
+	margin-left: 0px;
 	margin-bottom: 50px;
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -58,9 +58,12 @@ h1{
 </head>
 
 <body class= "p-0 h-100">
-
+	<a href = "{% url 'homepage' 'Mandala' %}" style="height:100%;width:10%;float:left">
+		<img src="{% static 'coloring/images/back.png' %}">
+	</a>
 	<div class="container">
-		    <h1>My Art Gallery</h1> 
+
+		    <h1>My Art Gallery</h1>
 
 
 		<div class="back p-0 h-100">

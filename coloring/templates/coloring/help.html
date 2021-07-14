@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,10 +7,14 @@
 
 	<style>
 		h1{
+			margin-right: auto;
+			margin-left: auto;
 			font-size: 40px;
 		}
 		p{
 			font-size: 30px;
+			margin-left: 70px;
+			margin-right: 70px;
 		}
 		body{
 			background-color: #ffe6cc;
@@ -16,6 +22,9 @@
 	</style>
 </head>
 <body>
+		<a href = "{% url 'homepage' 'Mandala' %}" style="height:100%;width:10%;float:left">
+			<img src="{% static 'coloring/images/back.png' %}">
+		</a>
 
 	<h1> Stuck?</h1>
 <p>

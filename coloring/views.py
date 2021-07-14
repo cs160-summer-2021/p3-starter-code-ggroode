@@ -19,7 +19,8 @@ def help(request):
 def homepage(request, category):
     #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
     categories = list(set([pic.category for pic in Picture.objects.all()]))
-    return render(request, 'coloring/homepage.html', {'photos':Picture.objects.filter(category=category),'categories':categories})
+    pic1,pic2=Picture.objects.filter(edited=True).order_by('-date_modified')[:2]
+    return render(request, 'coloring/homepage.html', {'photos':Picture.objects.filter(category=category),'categories':categories,'category':category,'pic1':pic1,'pic2':pic2})
 
 
     #return render(request, 'coloring/homepage.html', {'photos':Picture.objects.all()})
@@ -77,7 +78,7 @@ def canvas(request,id,paletteName='Basic Colors'):
         except:
             colors=['#FFFFFF']*8
             paletteName='Blank'
-    return render(request,'coloring/canvas.html',{"id":id,"imagePath":pic.photo.url,'colors':colors,'paletteName':paletteName,'paletteNames':[p.name for p in Palette.objects.all()]})
+    return render(request,'coloring/canvas.html',{"pic":pic,'paletteName':paletteName,'paletteNames':[p.name for p in Palette.objects.all()],'colors':colors})
 
 
 def upload(request):
@@ -130,7 +131,9 @@ def saveImage(request):
         print(e)
         return HttpResponse('Error')
 def uploadImage(request):
-    file = request.FILES['file']
+    print(request.FILES)
+    file = request.FILES['files[]']
+    print(file)
     category= request.POST.get("category")
     pic = Picture(category=category,photo=file)
     pic.save()
