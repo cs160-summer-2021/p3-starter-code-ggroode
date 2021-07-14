@@ -32,6 +32,18 @@
 
     }
 
+		function clearImage(){
+			$.post("{% url 'clear' %}",
+				{id:{{pic.id}}},
+				function(data,status,jqXHR){
+					window.location.href = "{% url 'canvas' pic.id%}" +"/{{paletteName}}";
+				}
+			)}
+
+		$( window ).resize(function() {
+			paper.project.layers[0].fitBounds(paper.view.bounds);
+		});
+
     var mandala = {
       item: null,
       lastClicked: null,
@@ -159,7 +171,7 @@
           //   mandala.item.position = paper.view.center
           // }
 				  paper.project.insertLayer(0,mandala.item);
-          paper.project.layers[0].fitBounds(paper.view.bounds)
+          paper.project.layers[0].fitBounds(paper.view.bounds);
 
 			    if (custom) {
 			    	myCustomInteraction();
@@ -172,6 +184,7 @@
 
 			// Set up the mandala interactivity.
 			init(true);
+
 		}
 	</script>
 {% endblock %}
@@ -271,7 +284,10 @@
 			<a href = "{% url 'homepage' pic.category %}" style="height:100%;width:10%">
 				<img src="{% static 'coloring/images/back.png' %}">
 			</a>
-			<div style="height:100%;width:74%"></div>
+			<div style="height:100%;width:66%"></div>
+			<a onclick="clearImage()" style="height:100%;width:8%">
+				<img src="{% static 'coloring/images/trash.png' %}">
+			</a>
 			<a onclick="undo()" style="height:100%;width:8%">
 				<img src="{% static 'coloring/images/undo.jpg' %}">
 			</a>

@@ -19,5 +19,6 @@ urlpatterns = [
     path('upload',views.upload,name='upload'),
     path('uploadImage',views.uploadImage,name='uploadImage'),
     path('help',views.help,name='help'),
+    path('clear',views.clear,name='clear')
 
 ]

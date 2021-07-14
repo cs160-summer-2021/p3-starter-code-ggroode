@@ -56,19 +56,24 @@ def gallery(request):
 def canvas(request,id,paletteName='Basic Colors'):
     pic = Picture.objects.get(pk=id)
     path =settings.MEDIA_ROOT + "/"+pic.photo.name
-    if path.split("/")[-1] != str(id)+".svg" :
+    newName = str(id)+".svg"
+    if path.split("/")[-1] != newName :
         # if path.split(".")[-1] != "svg":
         intermediatePath = settings.MEDIA_ROOT+"/"+str(id) +".pgm"
         outputPath = settings.MEDIA_ROOT+"/"+str(id)+"temp.svg"
         os.system('convert ' + path+ " " + intermediatePath)
         os.system('potrace ' + intermediatePath +" -s --opaque -o " + outputPath)
         os.system('rm ' + settings.MEDIA_ROOT + "/" + str(id)+".svg")
-        pic.photo.save(str(id)+".svg",File(open(outputPath,'rb')))
+        pic.photo.save(newName,File(open(outputPath,'rb')))
         os.system('rm ' + intermediatePath)
         os.system('rm ' + path)
         os.system('rm ' + outputPath)
         # else:
         #     os.rename(path,settings.MEDIA_ROOT+"/"+)
+    files = os.listdir(settings.MEDIA_ROOT)
+    backupName=str(id)+"_backup.svg"
+    if all([backupName != f for f in files]):
+        os.system("scp " + settings.MEDIA_ROOT+"/"+newName + " " + settings.MEDIA_ROOT + "/" + backupName)
     colors = []
     if paletteName == 'Blank':
         colors =['#FFFFFF']*8
@@ -138,3 +143,15 @@ def uploadImage(request):
     pic = Picture(category=category,photo=file)
     pic.save()
     return redirect('index')
+
+def clear(request):
+    print(request.POST)
+    id = request.POST.get('id')
+    print(id)
+    pic = Picture.objects.get(pk=id)
+    pic.edited=False
+    pic.save()
+    newName = str(id)+".svg"
+    backupName=str(id)+"_backup.svg"
+    os.system("scp " + settings.MEDIA_ROOT + "/" + backupName + " " + settings.MEDIA_ROOT+"/"+newName )
+    return HttpResponse('Success')
