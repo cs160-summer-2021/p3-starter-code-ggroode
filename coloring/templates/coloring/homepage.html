@@ -22,6 +22,7 @@
 .bg-img {
   background-color: #ffe6cc;
   height: 100vh;
+  margin: auto;
 
 
 
@@ -48,6 +49,8 @@
   overflow: scroll;
   background-color: #a3a39d;
 text-align: center;
+margin: auto;
+margin-left: 40px;
 
 }
 
@@ -120,11 +123,12 @@ select {
 }
 
 .dropdown{
-	margin-top: 10px;
-	margin-bottom: 10px;
+  size: 100px;
+	margin-top: 100px;
+	margin-bottom: 40px;
 	text-align: center;
 	color: #a3a39d;
-  
+
 }
 .dropdown-item:hover {
   background-color: #A3D2DC;
@@ -145,17 +149,18 @@ select {
 }
 
 
-/*
+
 .pic_column {
 	float: left;
 	height: auto;
-	width:200px;
+	width:100px;
 
 	overflow: hidden;
 	position: relative;
 }
 .pic_column:hover .overlay {
 	display: block;
+  opacity: 1;
 }
 
 .four-pics {
@@ -169,9 +174,9 @@ select {
 }
 
 .overlay {
-	background-color: rgba(0,0,0,0.5);
+	background-color: #A3D2DC;
 	color: white;
-
+  opacity: 0;
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -182,43 +187,77 @@ select {
 	display: center;
 }
 
+.my-pic {
+  width: 100px;
+  height: auto;
+}
+.image{
+
+  height: 100px;
+  border: 2px  double grey;
+   border-style: double groove;
+  background-color: #ffffff; 
+}
+
 
 
 </style>
 </head>
-<body class= "p-0 h-100">
+<body class="p-0 h-100">
+  <!-- {% static 'coloring/images/file_name' %} 
+  <img src= "{% static 'gal_icon.jpeg' %}" alt="Testing" class="my-pic"/> -->
 
-<div class="bg-img">
-  <div class="container p-0 h-100">
+  <div class="bg-img">
+          <div class="pic_column"> 
+        <img src= "{{photos.0}}" alt="Testing" class="my-pic"/>
+         <div class="overlay" id="caption1">Return to Current Project</div> 
+       </div> 
+      <div class="pic_column gallery"> 
+        <img src= "{% static 'gallery.jpeg' %}" alt="Testing" class="my-pic image"/>
+         <div class="overlay" id="caption1">Gallery</div> 
+       </div> 
+      <div class="pic_column"> 
+        <img src= "{% static 'upload_icon.jpeg' %}" alt="Testing" class="my-pic upload image"/>
+         <div class="overlay" id="caption1">Upload</div> 
+       </div> 
+      <div class="pic_column"> 
+        <img src= "{% static 'help.jpeg.png' %}" alt="Testing" class="my-pic help image"/>
+         <div class="overlay" id="caption1">Help</div> 
+       </div> 
+       <script>
+        $(".gallery").click(function(){
+         window.location = "http://localhost:8000/coloring/gallery";
+        });
+</script>
 
-    <div class="homepage">
+    <div class="container p-0 h-100">
+ 
 
 
-<!--
-    	<div class="pic_column">
-    		<img src="gallery_icon" alt="" class="four-pics">
-    		<div class="overlay" id="caption1">Test1</div>
-    	</div> -->
+
+      <div class="homepage">
+
+      <!--
+        <a href="#">Return to Current Project</a>
+        <a href="http://localhost:8000/coloring/gallery">Gallery</a>
+        <a href="#">Upload</a>
+        <a href="#">Help</a> 
+      -->
 
 
-      <a href="#"> Current Project 1</a>
-      <a href="#">Current Project 2</a>
-      <a href="http://localhost:8000/coloring/gallery">Gallery</a>
-      <a href="#">Upload</a>
 
+      </div>
 
+  <div class="dropdown show">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Select Category
+    </a>
+
+    <div class="dropdown-menu dropdown-large" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="http://localhost:8000/coloring/homepage/Mandala">Mandala</a>
+      <a class="dropdown-item" href="http://localhost:8000/coloring/homepage/Animals">Animals</a>
     </div>
-
-<div class="dropdown show">
-  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Select Category
-  </a>
-
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <a class="dropdown-item" href="http://localhost:8000/coloring/homepage/Mandala">Mandala</a>
-    <a class="dropdown-item" href="http://localhost:8000/coloring/homepage/Animals">Animals</a>
   </div>
-</div>
 
 
 
@@ -230,57 +269,57 @@ select {
 
 
 
-  <!-- <div class="wrapper">
+    <!-- <div class="wrapper">
 
 
-  <select name= "category" id= "selection" onchange="func()" >
-    <option value= "Mandala" selected>Mandala</option>
-    <option value= "Animals">Animals</option>
+    <select name= "category" id= "selection" onchange="func()" >
+      <option value= "Mandala" selected>Mandala</option>
+      <option value= "Animals">Animals</option>
 
 
-  </select>
-	</div>
-	<script>
-
-
-
-
-function func() {
-	var open = $(this).data("isopen");
-  var x = document.getElementById("selection").value;
-	window.location = "http://localhost:8000/coloring/homepage/" + x;}
-	  $(this).data("isopen", !open);
+    </select>
+  	</div>
+  	<script>
 
 
 
 
-	  function funct(){
-  var open = $(this).data("isopen");
-  if(open) {
-    window.location.href = $(this).val()
-  }
-  $(this).data("isopen", !open);
-};
+  function func() {
+  	var open = $(this).data("isopen");
+    var x = document.getElementById("selection").value;
+  	window.location = "http://localhost:8000/coloring/homepage/" + x;}
+  	  $(this).data("isopen", !open);
 
-</script> -->
 
-    {% block body %}
-      {% for pic in photos %}
-			   {% if forloop.counter|modulo:3 == 1 %}
-			     <div class="row" style="height:220px; margin:auto;">
-		 	    {% endif %}
-			 	 <div class = "col-sm-4" >
-					   <a href = "{% url 'canvas' pic.id %}">
-						  <img src = "{{pic.photo.url}}" id = "image"/>
-					   </a>
-				</div>
-			   {% if forloop.last or forloop.counter|modulo:3 == 0  %}
-			 </div>
-		 	{% endif %}
-		{% endfor %}
-{% endblock %}
-	</div>
-</div>
+
+
+  	  function funct(){
+    var open = $(this).data("isopen");
+    if(open) {
+      window.location.href = $(this).val()
+    }
+    $(this).data("isopen", !open);
+  };
+
+  </script> -->
+
+      {% block body %}
+        {% for pic in photos %}
+  			   {% if forloop.counter|modulo:3 == 1 %}
+  			     <div class="row" style="height:220px; margin:auto;">
+  		 	    {% endif %}
+  			 	 <div class = "col-sm-4" >
+  					   <a href = "{% url 'canvas' pic.id %}">
+  						  <img src = "{{pic.photo.url}}" id = "image"/>
+  					   </a>
+  				</div>
+  			   {% if forloop.last or forloop.counter|modulo:3 == 0  %}
+  			 </div>
+  		 	{% endif %}
+  		{% endfor %}
+  {% endblock %}
+  	</div>
+  </div>
 
 
 
