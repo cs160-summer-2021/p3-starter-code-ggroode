@@ -14,6 +14,26 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+		<script>
+			window.onload = function() {
+				const form = document.querySelector('form')
+
+				form.addEventListener('submit', (e) => {
+					e.preventDefault()
+					const file = document.getElementById('image-file').files[0];
+					const formData = new FormData();
+					formData.append('files[]', file);
+					formData.append('category',document.getElementById('category-name').value);
+					fetch("{% url 'uploadImage' %}", {
+						method: 'POST',
+						body: formData,
+					}).then((response) => {
+						console.log(response)
+					})
+				})
+			}
+			</script>
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">
@@ -152,8 +172,8 @@ select {
 
 .pic_column {
 	float: left;
-	height: auto;
-	width:100px;
+	height: 120px;
+	width:120px;
 
 	overflow: hidden;
 	position: relative;
@@ -188,15 +208,15 @@ select {
 }
 
 .my-pic {
-  width: 100px;
-  height: auto;
+  width: 100%;
+  height: 100%;
 }
 .image{
 
   height: 100px;
   border: 2px  double grey;
    border-style: double groove;
-  background-color: #ffffff; 
+  background-color: #ffffff;
 }
 
 
@@ -204,34 +224,39 @@ select {
 </style>
 </head>
 <body class="p-0 h-100">
-  <!-- {% static 'coloring/images/file_name' %} 
+  <!-- {% static 'coloring/images/file_name' %}
   <img src= "{% static 'gal_icon.jpeg' %}" alt="Testing" class="my-pic"/> -->
-
   <div class="bg-img">
-          <div class="pic_column"> 
-        <img src= "{{photos.0}}" alt="Testing" class="my-pic"/>
-         <div class="overlay" id="caption1">Return to Current Project</div> 
-       </div> 
-      <div class="pic_column gallery"> 
-        <img src= "{% static 'gallery.jpeg' %}" alt="Testing" class="my-pic image"/>
-         <div class="overlay" id="caption1">Gallery</div> 
-       </div> 
-      <div class="pic_column"> 
-        <img src= "{% static 'upload_icon.jpeg' %}" alt="Testing" class="my-pic upload image"/>
-         <div class="overlay" id="caption1">Upload</div> 
-       </div> 
-      <div class="pic_column"> 
-        <img src= "{% static 'help.jpeg.png' %}" alt="Testing" class="my-pic help image"/>
-         <div class="overlay" id="caption1">Help</div> 
-       </div> 
+			<div style="width:84px;height:120px;float:left"></div>
+      <a class="pic_column" href="{% url 'canvas' pic1.id%}">
+        	<img src= "{{pic1.photo.url}}" alt="Testing" class="my-pic"/>
+        	<div href="{% url 'canvas' pic1.id%}" class="overlay" id="caption1">Return to Recent Project</div>
+      </a>
+		<a href="{% url 'canvas' pic2.id%}" class="pic_column">
+		 	<img src= "{{pic2.photo.url}}" alt="Testing" class="my-pic"/>
+			<div class="overlay" id="caption1">Return to Recent Project</div>
+		</a>
+    <div class="pic_column gallery">
+      <img src= "{% static 'gallery.jpeg' %}" alt="Testing" class="my-pic"/>
+      <div class="overlay" id="caption1">Gallery</div>
+    </div>
+    <a class="pic_column" data-toggle="modal" data-target="#uploadModal">
+      <img src= "{% static 'upload_icon.jpeg' %}" alt="Testing" class="my-pic upload"/>
+       <div class="overlay" id="caption1">Upload</div>
+    </a>
+    <div class="pic_column">
+      <img src= "{% static 'help.jpeg.png' %}" alt="Testing" class="my-pic help"/>
+      <div class="overlay" id="caption1">Help</div>
+		</div>
+
        <script>
         $(".gallery").click(function(){
-         window.location = "http://localhost:8000/coloring/gallery";
+         window.location = "{% url 'gallery' %}";
         });
-</script>
+			</script>
 
     <div class="container p-0 h-100">
- 
+
 
 
 
@@ -241,7 +266,7 @@ select {
         <a href="#">Return to Current Project</a>
         <a href="http://localhost:8000/coloring/gallery">Gallery</a>
         <a href="#">Upload</a>
-        <a href="#">Help</a> 
+        <a href="#">Help</a>
       -->
 
 
@@ -250,12 +275,14 @@ select {
 
   <div class="dropdown show">
     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Select Category
+      {{category}}
     </a>
 
     <div class="dropdown-menu dropdown-large" aria-labelledby="dropdownMenuLink">
-      <a class="dropdown-item" href="http://localhost:8000/coloring/homepage/Mandala">Mandala</a>
-      <a class="dropdown-item" href="http://localhost:8000/coloring/homepage/Animals">Animals</a>
+			{% for cat in categories %}
+	      <a class="dropdown-item" href="{% url 'homepage' cat %}">{{cat}}</a>
+	      <!-- <a class="dropdown-item" href="http://localhost:8000/coloring/homepage/Animals">Animals</a> -->
+			{% endfor %}
     </div>
   </div>
 
@@ -303,7 +330,7 @@ select {
 
   </script> -->
 
-      {% block body %}
+
         {% for pic in photos %}
   			   {% if forloop.counter|modulo:3 == 1 %}
   			     <div class="row" style="height:220px; margin:auto;">
@@ -317,9 +344,35 @@ select {
   			 </div>
   		 	{% endif %}
   		{% endfor %}
-  {% endblock %}
+
   	</div>
   </div>
+
+	<!-- A section for popups -->
+
+	<div class="modal" id="uploadModal" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form  enctype="multipart/form-data" action="{% url 'uploadImage' %}" method="post">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Upload an Image</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<label for="category-name"><b>Category:</b></label>
+				  <input id="category-name" type="text" name = "category" required>
+				  <label for="image-file" ><b>Picture:</b></label>
+				  <input id="image-file" type="file" name="file" required>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload Picture</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 
 
