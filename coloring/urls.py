@@ -18,4 +18,6 @@ urlpatterns = [
     path('saveImage',views.saveImage,name='saveImage'),
     path('upload',views.upload,name='upload'),
     path('uploadImage',views.uploadImage,name='uploadImage'),
+    path('help',views.help,name='help'),
+
 ]

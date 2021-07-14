@@ -13,6 +13,8 @@ def index(request):
 def demo(request):
     return render(request, 'coloring/demo.html')
 
+def help(request):
+    return render(request, 'coloring/help.html')
 #<<<<<<< HEAD
 def homepage(request, category):
     #context = {'pictures': Picture.objects.filter(main=True).order_by('item')}
