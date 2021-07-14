@@ -75,7 +75,7 @@ def canvas(request,id,paletteName='Basic Colors'):
         except:
             colors=['#FFFFFF']*8
             paletteName='Blank'
-    return render(request,'coloring/canvas.html',{"id":id,"imagePath":pic.photo.url,'colors':colors,'paletteName':paletteName,'paletteNames':[p.name for p in Palette.objects.all()]})
+    return render(request,'coloring/canvas.html',{"pic":pic,'paletteName':paletteName,'paletteNames':[p.name for p in Palette.objects.all()],'colors':colors})
 
 
 def upload(request):
