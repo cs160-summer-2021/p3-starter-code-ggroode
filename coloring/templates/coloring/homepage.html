@@ -220,13 +220,16 @@ select {
         <img src= "{% static 'upload_icon.jpeg' %}" alt="Testing" class="my-pic upload image"/>
          <div class="overlay" id="caption1">Upload</div> 
        </div> 
-      <div class="pic_column"> 
-        <img src= "{% static 'help.jpeg.png' %}" alt="Testing" class="my-pic help image"/>
+      <div class="pic_column help"> 
+        <img src= "{% static 'help.jpeg.png' %}" alt="Testing" class="my-pic image"/>
          <div class="overlay" id="caption1">Help</div> 
        </div> 
        <script>
         $(".gallery").click(function(){
          window.location = "http://localhost:8000/coloring/gallery";
+        });
+      $(".help").click(function(){
+         window.location = "http://localhost:8000/coloring/help";
         });
 </script>
 
