@@ -42,26 +42,8 @@
 .bg-img {
   background-color: #ffe6cc;
   height: 100vh;
-  margin: auto; 
+  margin: auto;
 }
-
-/* Position the navbar container inside the image */
-/*
-.container {
-  position: absolute;
-  margin: 30px;
-  width: auto;
-}
-*/
-/*
-.row{
-	display: grid;
-  grid-auto-flow: column;
-}
-*/
-
-
-
 
 
 
@@ -185,35 +167,14 @@ select {
 	display: none;
 }
 
-
-
-
 </style>
 </head>
 <body>
-  <!-- {% static 'coloring/images/file_name' %}
-  <img src= "{% static 'gal_icon.jpeg' %}" alt="Testing" class="my-pic"/> -->
-  <div class="bg-img ">
-      <!-- <<<<<<< HEAD
-          <div class="pic_column"> 
-        <img src= "{{photos.0}}" alt="Testing" class="my-pic"/>
-         <div class="overlay" id="caption1">Return to Current Project</div> 
-       </div> 
-      <div class="pic_column gallery"> 
-        <img src= "{% static 'gallery.jpeg' %}" alt="Testing" class="my-pic image"/>
-         <div class="overlay" id="caption1">Gallery</div> 
-       </div> 
-      <div class="pic_column"> 
-        <img src= "{% static 'upload_icon.jpeg' %}" alt="Testing" class="my-pic upload image"/>
-         <div class="overlay" id="caption1">Upload</div> 
-       </div> 
-      <div class="pic_column help"> 
-        <img src= "{% static 'help.jpeg.png' %}" alt="Testing" class="my-pic image"/>
-         <div class="overlay" id="caption1">Help</div> 
-       </div> 
-      ======= -->
 
-		<div style="width:115px;height:240px;float:left"></div>
+  <div class="bg-img ">
+
+
+		<div style="width:86px;height:120px;float:left"></div>
 
     <a class="pic_column" href="{% url 'canvas' pic1.id%}">  <!-- pic_1 -->
       <img src= "{{pic1.photo.url}}" alt="Testing" class="my-pic"/> <!-- inside_left -->
@@ -264,7 +225,7 @@ select {
 
       <div class="dropdown-menu dropdown-large" aria-labelledby="dropdownMenuLink">
   			{% for cat in categories %}
-  	      <a class="dropdown-item" href="{% url 'homepage' cat %}">{{cat}}</a>
+  	      <a class="dropdown-item" href="{% url 'homepage' cat %}" onclick="document.location.reload(true)">{{cat}}</a>
   	      <!-- <a class="dropdown-item" href="http://localhost:8000/coloring/homepage/Animals">Animals</a> -->
   			{% endfor %}
       </div>
@@ -306,7 +267,7 @@ select {
 				  <input id="image-file" type="file" name="file" required>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload Picture</button>
+					<button type="submit" class="btn btn-primary" data-toggle="modal" onclick="document.location.reload(true)" data-target="#uploadModal" onclick="document.location.reload(true)">Upload Picture</button>
 				</div>
 			</form>
 		</div>
